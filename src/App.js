@@ -5,43 +5,42 @@ import Club from './ClubCard';
 import AddCard from './AddCard';
 
 function App() {
+  const getClasses = () => {
+    const classes = window.localStorage.getItem('classes');
+    if (!classes || typeof classes !== 'undefined') {
+      return [];
+    }
+    return JSON.parse(classes);
+  };
+
+  const getOrganizations = () => {
+    const organizations = window.localStorage.getItem('organizations');
+    if (!organizations || typeof classes !== 'undefined') {
+      return [];
+    }
+    return JSON.parse(organizations);
+  };
+
   const [addOrganization, setAddOrganization] = useState(false);
-  const [classes, setClasses] = useState([
-    {
-      class: "CSCI 0180", 
-      link: "https://google.com", 
-      website: "https://google.com", 
-      piazza: "https://google.com"
-    }, 
-    {
-      class: "CSCI 0220", 
-      link: "https://google.com", 
-      website: "https://google.com", 
-      piazza: ""
-    },
-    {
-      class: "CSCI 1951A", 
-      link: "https://google.com", 
-      website: "https://google.com", 
-      piazza: "https://google.com"
-    }, 
-    {
-      class: "LITR 0110B", 
-      link: "https://google.com", 
-      website: "https://google.com", 
-      piazza: "https://google.com"
-    }
-  ]);
+  const [classes, setClasses] = useState(
+    getClasses()
+  );
+
+  const updateClasses = (classes) => {
+    const stringifiedClasses = JSON.stringify(classes);
+    window.localStorage.setItem('classes', stringifiedClasses);
+    setClasses(classes);
+  };
+
   const [clubs, setClubs] = useState([
-    {
-      club: "Gendo Taiko", 
-      link: "https://google.com"
-    }, 
-    {
-      club: "Full Stack at Brown", 
-      link: "https://google.com"
-    }
+    getOrganizations()
   ]);
+
+  const updateClubs = (clubs) => {
+    const stringifiedClubs = JSON.stringify(clubs);
+    window.localStorage.setItem('organizations', stringifiedClubs);
+    setClubs(clubs);
+  };
 
   return (
     <div style={styles.container}>
@@ -49,9 +48,9 @@ function App() {
       <div style={styles.body}>
         <div style={styles.columnContainer}>
           {classes.map((item, index) => (
-            <ClassContainer 
-              key={index} 
-              className={item.class} 
+            <ClassContainer
+              key={index}
+              className={item.class}
               link={item.link}
               website={item.website}
               piazza={item.piazza}
@@ -60,7 +59,7 @@ function App() {
         </div>
         <div style={styles.columnContainer}>
           {clubs.map((club, index) => (
-            <Club 
+            <Club
               key={index}
               clubName={club.club}
               link={club.link}
@@ -69,18 +68,18 @@ function App() {
         </div>
       </div>
       <div style={styles.addCard}>
-        <button 
+        <button
           style={styles.button}
           onClick={() => setAddOrganization(!addOrganization)}
         >
           {
             addOrganization ? <div>I'm done!</div>
-            : <div>Add a Class or Organization</div>
+              : <div>Add a Class or Organization</div>
           }
-          </button>
-          {
-            addOrganization ? <AddCard classes={classes} setClasses={setClasses} clubs={clubs} setClubs={setClubs}/> : null
-          }
+        </button>
+        {
+          addOrganization ? <AddCard classes={classes} setClasses={updateClasses} clubs={clubs} setClubs={updateClubs} /> : null
+        }
       </div>
     </div>
   );
@@ -88,24 +87,24 @@ function App() {
 
 const styles = {
   container: {
-    width: 500, 
+    width: 500,
     border: 'solid',
-  }, 
+  },
   header: {
-    marginTop: 20, 
+    marginTop: 20,
     marginLeft: 150,
     letterSpacing: 1
-  }, 
+  },
   body: {
-    display: 'flex', 
+    display: 'flex',
   },
   columnContainer: {
-    display: 'flex', 
-    flexDirection: 'column', 
+    display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    width: '50%', 
+    width: '50%',
     margin: 10
-  }, 
+  },
   addCard: {
     display: 'flex',
     alignItems: 'center',
@@ -113,7 +112,7 @@ const styles = {
     flexDirection: 'column'
   },
   button: {
-    alignSelf: 'center', 
+    alignSelf: 'center',
     width: 200,
     height: 30,
     fontFamily: 'Work Sans',

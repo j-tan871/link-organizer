@@ -22,7 +22,6 @@ function ClassCard({ className, link, website, piazza }) {
 
 const styles = {
   container: {
-    // border: 'solid', 
     width: 225,
     height: 50,
     marginBottom: 10,
