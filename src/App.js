@@ -7,7 +7,9 @@ import AddCard from './AddCard';
 function App() {
   const getClasses = () => {
     const classes = window.localStorage.getItem('classes');
-    if (!classes || typeof classes !== 'undefined') {
+    console.log(classes);
+    if (!classes || typeof classes === 'undefined') {
+      console.log('hi');
       return [];
     }
     return JSON.parse(classes);
@@ -27,6 +29,7 @@ function App() {
   );
 
   const updateClasses = (classes) => {
+    console.log(classes);
     const stringifiedClasses = JSON.stringify(classes);
     window.localStorage.setItem('classes', stringifiedClasses);
     setClasses(classes);

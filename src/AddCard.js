@@ -58,19 +58,15 @@ function AddCard({ classes, setClasses, clubs, setClubs }) {
         website: values.website,
         piazza: values.piazza
       }
-      setClasses((classes) => ([
-        ...classes,
-        addedClass,
-      ]));
+      const newClasses = [...classes, addedClass];
+      setClasses(newClasses);
     } else {
       const addedClub = {
         club: values.name,
         link: values.zoom,
       }
-      setClubs((clubs) => ([
-        ...clubs,
-        addedClub,
-      ]));
+      const newClubs = [...clubs, addedClub];
+      setClubs(newClubs);
     }
     setValues(() => ({
       type: 'class',
