@@ -1,10 +1,17 @@
-function ClubCard({ clubName, link }) {
+function ClubCard({ clubName, link, deleteClub, clubs }) {
+
+  const handleRemove = () => {
+    const updatedClubs = clubs.filter(clubItem => clubItem.club !== clubName);
+    deleteClub(updatedClubs);
+  }
+
   return (
     typeof clubName !== 'undefined' ? <div style={styles.container}>
       <h2 style={styles.clubName}>{clubName}</h2>
       <a href={link} target="__blank" style={styles.link}>
         <p style={styles.text}>Zoom</p>
       </a>
+      <div style={styles.remove} onClick={handleRemove}>[remove]</div>
     </div> : null
   )
 }
@@ -13,7 +20,7 @@ const styles = {
   container: {
     width: 225,
     height: 50,
-    marginBottom: 10,
+    marginBottom: 20,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start'
@@ -32,6 +39,11 @@ const styles = {
   },
   text: {
     margin: 0
+  }, 
+  remove: {
+    fontSize: 14, 
+    alignSelf: 'center', 
+    marginTop: 5
   }
 }
 

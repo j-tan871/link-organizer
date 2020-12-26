@@ -1,4 +1,10 @@
-function ClassCard({ className, link, website, piazza }) {
+function ClassCard({ className, link, website, piazza, deleteClass, classes }) {
+
+  const handleRemove = () => {
+    const updatedClasses = classes.filter(classItem => classItem.class !== className);
+    deleteClass(updatedClasses);
+  }
+
   return (
     <div style={styles.container}>
       <h2 style={styles.className}>{className}</h2>
@@ -16,6 +22,7 @@ function ClassCard({ className, link, website, piazza }) {
             </a> : null
         }
       </div>
+      <div style={styles.remove} onClick={handleRemove}>[remove]</div>
     </div>
   )
 }
@@ -23,7 +30,7 @@ function ClassCard({ className, link, website, piazza }) {
 const styles = {
   container: {
     width: 225,
-    height: 50,
+    height: 60,
     marginBottom: 10,
     display: 'flex',
     flexDirection: 'column',
@@ -47,6 +54,12 @@ const styles = {
   },
   text: {
     margin: 0
+  }, 
+  remove: {
+    fontSize: 14, 
+    alignSelf: 'center', 
+    marginTop: 5, 
+    height: 5,
   }
 }
 

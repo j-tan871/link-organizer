@@ -7,37 +7,35 @@ import AddCard from './AddCard';
 function App() {
   const getClasses = () => {
     const classes = window.localStorage.getItem('classes');
-    console.log(classes);
     if (!classes || typeof classes === 'undefined') {
-      console.log('hi');
       return [];
     }
     return JSON.parse(classes);
   };
 
+  const [classes, setClasses] = useState(
+    getClasses()
+  );
+
   const getOrganizations = () => {
     const organizations = window.localStorage.getItem('organizations');
-    if (!organizations || typeof classes !== 'undefined') {
+    if (!organizations || typeof organizations === 'undefined') {
       return [];
     }
     return JSON.parse(organizations);
   };
 
-  const [addOrganization, setAddOrganization] = useState(false);
-  const [classes, setClasses] = useState(
-    getClasses()
+  const [clubs, setClubs] = useState(
+    getOrganizations()
   );
 
+  const [addOrganization, setAddOrganization] = useState(false);
+
   const updateClasses = (classes) => {
-    console.log(classes);
     const stringifiedClasses = JSON.stringify(classes);
     window.localStorage.setItem('classes', stringifiedClasses);
     setClasses(classes);
   };
-
-  const [clubs, setClubs] = useState([
-    getOrganizations()
-  ]);
 
   const updateClubs = (clubs) => {
     const stringifiedClubs = JSON.stringify(clubs);
@@ -48,6 +46,13 @@ function App() {
   return (
     <div style={styles.container}>
       <h1 style={styles.header}>Welcome Jenny.</h1>
+        {
+          classes.length === 0 && clubs.length < 1 ? 
+          <div style={{marginLeft: 20, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <div>Store your class links here!</div>
+            <div>Click the button below to get started.</div>
+          </div> : null
+        }
       <div style={styles.body}>
         <div style={styles.columnContainer}>
           {classes.map((item, index) => (
@@ -57,6 +62,8 @@ function App() {
               link={item.link}
               website={item.website}
               piazza={item.piazza}
+              deleteClass={updateClasses}
+              classes={classes}
             />
           ))}
         </div>
@@ -66,6 +73,8 @@ function App() {
               key={index}
               clubName={club.club}
               link={club.link}
+              deleteClub={updateClubs}
+              clubs={clubs}
             />
           ))}
         </div>
@@ -91,7 +100,6 @@ function App() {
 const styles = {
   container: {
     width: 500,
-    border: 'solid',
   },
   header: {
     marginTop: 20,
