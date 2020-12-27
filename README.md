@@ -1,4 +1,4 @@
-# Class Link Container
+# Link Container
 A simple chrome extension that organizes and stores links for easy retrieval. 
 
 ## Installing and Running
