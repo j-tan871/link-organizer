@@ -1,5 +1,5 @@
 # Link Container
-A simple chrome extension that organizes and stores links for easy retrieval. 
+A simple chrome extension that organizes and stores links for classes and other meetings so that they can be easily located.
 
 ## Installing and Running
 1. Clone the repository.

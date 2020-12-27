@@ -1,9 +1,13 @@
 {
-  "name": "My Extension",
+  "name": "Link Container",
   "version": "1.0",
   "manifest_version": 2,
   "browser_action": {
       "default_popup": "index.html"
   }, 
+  "icons": {
+    "16": "favicon-16x16.png", 
+    "32": "favicon-32x32.png"
+  },
   "permissions": ["storage"]
 }

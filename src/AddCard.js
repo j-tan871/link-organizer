@@ -53,7 +53,7 @@ function AddCard({ classes, setClasses, clubs, setClubs }) {
     e.preventDefault();
     if (values.type === "class") {
       const addedClass = {
-        class: values.name,
+        name: values.name,
         link: values.zoom,
         website: values.website,
         piazza: values.piazza
@@ -62,7 +62,7 @@ function AddCard({ classes, setClasses, clubs, setClubs }) {
       setClasses(newClasses);
     } else {
       const addedClub = {
-        club: values.name,
+        name: values.name,
         link: values.zoom,
       }
       const newClubs = [...clubs, addedClub];

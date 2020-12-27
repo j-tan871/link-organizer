@@ -1,10 +1,28 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-import ClassContainer from './ClassCard';
-import Club from './ClubCard';
 import AddCard from './AddCard';
+import Card from './Card';
+import Welcome from './Welcome';
 
 function App() {
+  const getName = () => {
+    const firstName = window.localStorage.getItem('name');
+    if (!firstName || typeof firstName === 'undefined') {
+      return '';
+    }
+    return JSON.parse(firstName);
+  };
+
+  const [name, setName] = useState(
+    getName()
+  );
+
+  const updateName = (name) => {
+    const stringifiedName = JSON.stringify(name);
+    window.localStorage.setItem('name', stringifiedName);
+    setName(name);
+  }
+
   const getClasses = () => {
     const classes = window.localStorage.getItem('classes');
     if (!classes || typeof classes === 'undefined') {
@@ -45,54 +63,61 @@ function App() {
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.header}>Welcome Jenny.</h1>
-        {
-          classes.length === 0 && clubs.length < 1 ? 
-          <div style={{marginLeft: 20, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <div>Store your class links here!</div>
-            <div>Click the button below to get started.</div>
-          </div> : null
-        }
-      <div style={styles.body}>
-        <div style={styles.columnContainer}>
-          {classes.map((item, index) => (
-            <ClassContainer
-              key={index}
-              className={item.class}
-              link={item.link}
-              website={item.website}
-              piazza={item.piazza}
-              deleteClass={updateClasses}
-              classes={classes}
-            />
-          ))}
-        </div>
-        <div style={styles.columnContainer}>
-          {clubs.map((club, index) => (
-            <Club
-              key={index}
-              clubName={club.club}
-              link={club.link}
-              deleteClub={updateClubs}
-              clubs={clubs}
-            />
-          ))}
-        </div>
-      </div>
-      <div style={styles.addCard}>
-        <button
-          style={styles.button}
-          onClick={() => setAddOrganization(!addOrganization)}
-        >
-          {
-            addOrganization ? <div>I'm done!</div>
-              : <div>Add a Class or Organization</div>
-          }
-        </button>
-        {
-          addOrganization ? <AddCard classes={classes} setClasses={updateClasses} clubs={clubs} setClubs={updateClubs} /> : null
-        }
-      </div>
+      {
+        name === '' ? <Welcome updateName={updateName}/> : 
+          <React.Fragment>
+            <h1 style={styles.header}>Welcome {name}.</h1>
+            {
+              classes.length === 0 && clubs.length < 1 ? 
+              <div style={{marginLeft: 20, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <div>Store your class links here!</div>
+                <div>Click the button below to get started.</div>
+              </div> : null
+            }
+            <div style={styles.body}>
+              <div style={styles.columnContainer}>
+                {classes.map((item, index) => (
+                  <Card 
+                    key={index}
+                    type="class"
+                    name={item.name}
+                    link={item.link}
+                    website={item.website}
+                    piazza={item.piazza}
+                    deleteItem={updateClasses}
+                    itemList={classes}
+                  />
+                ))}
+              </div>
+              <div style={styles.columnContainer}>
+                {clubs.map((club, index) => (
+                  <Card 
+                    key={index}
+                    type="club"
+                    name={club.name}
+                    link={club.link}
+                    deleteItem={updateClubs}
+                    itemList={clubs}
+                  />
+                ))}
+              </div>
+            </div>
+            <div style={styles.addCard}>
+              <button
+                style={styles.button}
+                onClick={() => setAddOrganization(!addOrganization)}
+              >
+                {
+                  addOrganization ? <div>I'm done!</div>
+                    : <div>Add a Class or Organization</div>
+                }
+              </button>
+              {
+                addOrganization ? <AddCard classes={classes} setClasses={updateClasses} clubs={clubs} setClubs={updateClubs} /> : null
+              }
+            </div>
+          </React.Fragment>
+      }
     </div>
   );
 }

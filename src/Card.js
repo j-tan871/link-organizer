@@ -1,25 +1,32 @@
-function ClassCard({ className, link, website, piazza, deleteClass, classes }) {
+import React from 'react';
+
+function Card({ type, name, link, website, piazza, deleteItem, itemList }) {
 
   const handleRemove = () => {
-    const updatedClasses = classes.filter(classItem => classItem.class !== className);
-    deleteClass(updatedClasses);
+    const updatedItems = itemList.filter(item => item.name !== name);
+    deleteItem(updatedItems);
   }
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.className}>{className}</h2>
+      <h2 style={styles.className}>{name}</h2>
       <div style={styles.linkContainer}>
         <a href={link} target="__blank" style={styles.link}>
-          <p style={styles.text}>Zoom &nbsp; |</p>
-        </a>
-        <a href={website} target="__blank" style={styles.link}>
-          <p style={styles.text}>&nbsp; Website &nbsp;</p>
+          <p style={styles.text}>Zoom</p>
         </a>
         {
-          piazza !== "" ?
-            <a href={piazza} target="__blank" style={styles.link}>
-              <p style={styles.text}>| &nbsp; Piazza</p>
-            </a> : null
+          type === "class" ? 
+          <React.Fragment>
+            <a href={website} target="__blank" style={styles.link}>
+              <p style={styles.text}>&nbsp; |&nbsp; Website &nbsp;</p>
+            </a>
+            {
+              piazza !== "" ?
+                <a href={piazza} target="__blank" style={styles.link}>
+                  <p style={styles.text}>| &nbsp; Piazza</p>
+                </a> : null
+            }
+          </React.Fragment> : null
         }
       </div>
       <div style={styles.remove} onClick={handleRemove}>[remove]</div>
@@ -63,4 +70,4 @@ const styles = {
   }
 }
 
-export default ClassCard;
+export default Card;
