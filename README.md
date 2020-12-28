@@ -1,4 +1,4 @@
-# Link Container
+# Link Organizer
 A simple chrome extension that organizes and stores links for classes and other meetings so that they can be easily located.
 
 ## Installing and Running
