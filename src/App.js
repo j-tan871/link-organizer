@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
-import AddCard from './AddCard';
-import Card from './Card';
+import AddCard from './components/AddCard';
+import Card from './components/Card';
 import Welcome from './Welcome';
 
 function App() {
+  const [editing, setEditing] = useState(false);
+
   const getName = () => {
     const firstName = window.localStorage.getItem('name');
     if (!firstName || typeof firstName === 'undefined') {
@@ -86,6 +88,7 @@ function App() {
                     piazza={item.piazza}
                     deleteItem={updateClasses}
                     itemList={classes}
+                    editing={editing}
                   />
                 ))}
               </div>
@@ -98,11 +101,21 @@ function App() {
                     link={club.link}
                     deleteItem={updateClubs}
                     itemList={clubs}
+                    editing={editing}
                   />
                 ))}
               </div>
             </div>
             <div style={styles.addCard}>
+              <button
+                style={styles.button}
+                onClick={() => setEditing(!editing)}
+              >
+                {
+                  editing ? <div>I'm done!</div> : 
+                  <div>Remove a Class or Organization</div>
+                }
+              </button>
               <button
                 style={styles.button}
                 onClick={() => setAddOrganization(!addOrganization)}
@@ -152,6 +165,7 @@ const styles = {
     width: 200,
     height: 30,
     fontFamily: 'Work Sans',
+    fontSize: 11.5,
     marginBottom: 20
   }
 }

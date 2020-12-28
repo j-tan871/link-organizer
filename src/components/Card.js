@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Card({ type, name, link, website, piazza, deleteItem, itemList }) {
+function Card({ type, name, link, website, piazza, deleteItem, itemList, editing }) {
 
   const handleRemove = () => {
     const updatedItems = itemList.filter(item => item.name !== name);
@@ -29,7 +29,9 @@ function Card({ type, name, link, website, piazza, deleteItem, itemList }) {
           </React.Fragment> : null
         }
       </div>
-      <div style={styles.remove} onClick={handleRemove}>[remove]</div>
+      {
+        editing ? <div style={styles.remove} onClick={handleRemove}>[remove]</div> : null
+      }
     </div>
   )
 }
@@ -38,7 +40,7 @@ const styles = {
   container: {
     width: 225,
     height: 60,
-    marginBottom: 10,
+    marginBottom: 20,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start'
